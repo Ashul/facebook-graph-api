@@ -1,0 +1,19 @@
+@media(min-width:481px) and (max-width:768px){
+    body{font-size:16px !important;}
+    .main{display: none;}
+    .bottom-button{display: none;}
+    .inner{
+        position: static;
+        width:80%;
+        margin: 0 auto;
+        font-size: 1em;
+    }
+    .inner h1{font-size: 2em;}
+    .light-g, .light-g1, .projects{font-size:1em}
+    .manage-space{display: block;height: 3px;}
+    .navigation nav ul{list-style: none;margin-top:10px;}
+    .social-icon nav ul{list-style: none;margin-top:10px;}
+
+
+
+}

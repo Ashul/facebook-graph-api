@@ -1,0 +1,13 @@
+@media(max-width:320px){
+     body{font-size:16px !important;}
+    .main{display: none;}
+    .bottom-button{display: none;}
+    .inner{
+        position: static;
+        width:80%;
+        margin: 0 auto;
+        font-size: 1em;
+    }
+    .inner h1{font-size: 2em;}
+    .light-g, .light-g1, .projects{font-size:1em}
+}
