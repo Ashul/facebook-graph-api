@@ -1,68 +1,107 @@
+$(document).ready(function(){
+  var myFacebookToken = 'EAACEdEose0cBAJqP5eoTupenJGVHuRLN6on0ZBCQQZAafGbBHnoFlNou0ZCP4rKxyLpCsX76eXGiixsQPZAGfnX2VcqzpMH34X5cT41HAHAmmWMrTIQDL9vwNGZCVSqv45WZCJws2NJr8Sh9UbdVsYZA2H92mCrJnao1IBPAYCTl0Tk4DcxJhhKHOptldXKRzQZD';
 
-function slides(){
-  var slide = document.getElementById('slide');
-  var slide1 = document.getElementById('slide1');
-  var slide2 = document.getElementById('slide2');
-  var slide3 = document.getElementById('slide3');
-  var slide4 = document.getElementById('slide4');
-  var slide5 = document.getElementById('slide5');
-  var slide6 = document.getElementById('slide6');
-  var slide7 = document.getElementById('slide7');
-  var slide8 = document.getElementById('slide8');
-  var slide9 = document.getElementById('slide9');
-  var slide10 = document.getElementById('slide10');
+  function getFacebookInfo(){
+    $.ajax('https://graph.facebook.com/me?access_token='+myFacebookToken,{
+      success: function(response){
+           $('.user').text(response.name);
 
+          // -------------------Works at------------------
+          var work = response.work;
+           for (item in work) {
+          $(".work").text(work[item].employer.name);
+          }
 
+          // -------------------Location------------------
+          $('.location').text(response.location.name);
+          
+          // -------------------education at------------------
+         var education = response.education;
+           for(items in education){
+            var edu = education[items];
+            $('.education').text(edu.school.name);
+          }
 
-  if(slide.style.pos !=0 && 
-    slide1.style.pos !=0 && 
-    slide2.style.pos !=0 && 
-    slide3.style.pos !=0 && 
-    slide4.style.pos !=0 &&
-    slide5.style.pos !=0 &&
-    slide6.style.pos !=0 && 
-    slide7.style.pos !=0 && 
-    slide8.style.pos !=0 &&
-    slide9.style.pos !=0 &&
-    slide10.style.pos !=0 
+         // -------------------conatct------------------
+         $('.contact').text(response.email);
 
+         // -------------------Gender------------------
+         $('.gender').text(response.gender);
 
-){
-    slide.style.right = 20+'%';
-    slide.style.bottom = 35+'%';
+         // -------------------Bio------------------
+         $('#bio').text(response.bio)
 
-    slide1.style.right = 16+'%';
-    slide1.style.bottom = 60+'%';
+         // -------------------languages ------------------
+         var languages = response.languages;
+           for(items in languages){
+           var lang = languages[items];
+           $('#language').text(lang.name)
+        }
 
-    slide2.style.right = 20+'%';
-    slide2.style.bottom =23+'%';
-    
-    slide3.style.right = -18+'%';
-    slide3.style.bottom = 28+'%';
-    
-    slide4.style.right = 1+'%';
-    slide4.style.bottom = 7+'%';
+        // -------------------favoriteAthletes ------------------
+        var favAth = response.favorite_athletes;
+        var x = '';
+          for(items in favAth){
+           x += "<li>"+favAth[items].name+"</li>" ;
+           $('#favAth').html("<ul>"+x+"</ul>");
+          };
 
-    
-    slide5.style.right = 10+'%';
-    slide5.style.bottom = 46+'%';
+        // -------------------Cover Photo ------------------
+        $('#cover').html('<img src="assets/images/flag.jpg"/>');
 
-    slide6.style.right = -11+'%';
-    slide6.style.bottom = -10+'%';
-
-    slide7.style.right = 11+'%';
-    slide7.style.bottom = -17+'%';
-
-    slide8.style.right = 28+'%';
-    slide8.style.bottom = -12+'%';
-
-    slide9.style.right = 45+'%';
-    slide9.style.bottom = -8+'%';
-
-    slide10.style.right = 31+'%';
-    slide10.style.bottom = 13+'%';
-
-
-
+      },
+        // -------------------Handling Error ------------------
+       error: function(response){
+         alert('Not Found...Retry')
+      console.log('Not found')      }
+    })
   }
-}
+getFacebookInfo();
+
+
+
+
+// ------------------------------feed------------------------------
+
+  function getFacebookFeed(){
+    $.ajax('https://graph.facebook.com/me/feed?access_token='+myFacebookToken,{
+      success: function(response){
+          console.log(response)
+          // -------------------Works at------------------
+        var feed = response.data;
+        var x ='';
+        var action = feed[item].actions;
+        var actionItems = '';
+         for(item in action){
+             actionItems +="<li>"+ action[item].name+"</li>";
+           }
+
+         for (item in feed) {
+       x += "<div class="+"info> <p><span class="+"'span-img'"+"><img src='"+feed[item].picture+"'/></span>"
+         +feed[item].name+"</br>"+feed[item].created_time+"</p>"
+         +" <p><img src='" +feed[item].picture+"'/></p>"
+         +" <p>" +feed[item].description+"</p><hr/>"
+         +" <p><ul class="+"comment"+">" +actionItems+"</ul></p></div>";
+         $(".information").html(x);
+        // $(".feed").text(feed[item].name);
+        // $(".feed_pic").html("<img src='"+feed[item].picture+"'/>");
+        // $(".description").text(feed[item].description);
+
+      }
+          // -------------------Works at ends------------------
+        $('#cover').html('<img src="assets/images/flag.jpg"/>');
+
+      },
+      error: function(response){
+      console.log('Not found')      }
+    })
+  }
+getFacebookFeed();
+  $().trigger('click');
+
+
+});
+
+
+
+
