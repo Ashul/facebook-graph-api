@@ -66,8 +66,6 @@ getFacebookInfo();
   function getFacebookFeed(){
     $.ajax('https://graph.facebook.com/me/feed?access_token='+myFacebookToken,{
       success: function(response){
-          console.log(response)
-          // -------------------Works at------------------
         var feed = response.data;
         var x ='';
         var action = feed[item].actions;
@@ -83,13 +81,8 @@ getFacebookInfo();
          +" <p>" +feed[item].description+"</p><hr/>"
          +" <p><ul class="+"comment"+">" +actionItems+"</ul></p></div>";
          $(".information").html(x);
-        // $(".feed").text(feed[item].name);
-        // $(".feed_pic").html("<img src='"+feed[item].picture+"'/>");
-        // $(".description").text(feed[item].description);
 
       }
-          // -------------------Works at ends------------------
-        $('#cover').html('<img src="assets/images/flag.jpg"/>');
 
       },
       error: function(response){
